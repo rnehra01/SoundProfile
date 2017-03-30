@@ -10,4 +10,17 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.csn254.soundprofile.Home">
 
+    <ImageButton
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:id="@+id/addButton"
+        android:background="@drawable/oval"
+        android:elevation="10dp"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/add_button_image"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="240dp" />
+
 </RelativeLayout>
