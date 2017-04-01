@@ -1,5 +1,6 @@
 package com.example.csn254.soundprofile;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,14 +15,17 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         floatButton = (ImageButton) findViewById(R.id.addButton);
         floatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),
-                        "This feature will be available soon", Toast.LENGTH_LONG).show();
+                launch_add_slot_activity();
             }
         });
+    }
+
+    public void launch_add_slot_activity(){
+        Intent i=new Intent(this, add_slot.class);
+        startActivity(i);
     }
 }
