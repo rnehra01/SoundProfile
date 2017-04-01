@@ -14,7 +14,6 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         floatButton = (ImageButton) findViewById(R.id.addButton);
         floatButton.setOnClickListener(new View.OnClickListener() {
             @Override
