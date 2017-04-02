@@ -10,9 +10,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -31,6 +34,12 @@ public class add_slot extends AppCompatActivity {
     private int pHour;
     private int pMinute;
     private int TIME_DIALOG_ID = 0;
+
+
+    Spinner day_spinner;
+    ArrayAdapter<CharSequence> adapter;
+    String DayStatus;
+
     AlarmManager alarm_manager;
     TimePicker alarm_timepicker;
     Context context;
@@ -82,6 +91,21 @@ public class add_slot extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_slot);
         this.context = this;
+
+        day_spinner = (Spinner) findViewById(R.id.day_spinner);
+        adapter = ArrayAdapter.createFromResource(this, R.array.day_list, android.R.layout.simple_dropdown_item_1line);
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        day_spinner.setAdapter(adapter);
+        day_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+                DayStatus = parent.getItemAtPosition(position) + "";
+                Toast.makeText(getBaseContext(), "entered day " + DayStatus, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent){}
+        });
 
         start_time_display = (TextView) findViewById(R.id.start_time_display);
         end_time_display = (TextView) findViewById(R.id.end_time_display);
