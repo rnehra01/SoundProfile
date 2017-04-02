@@ -13,10 +13,10 @@
         android:textAlignment="viewStart"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:layout_marginTop="48dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="14dp" />
+        android:layout_alignParentStart="true" />
 
     <Spinner
         android:id="@+id/day_spinner"
@@ -49,44 +49,50 @@
 
     <Button
         android:id="@+id/start_time"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/day_text"
-        android:layout_marginLeft="25dp"
-        android:layout_marginStart="25dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="124dp"
+        android:layout_toLeftOf="@+id/save_button"
+        android:layout_toStartOf="@+id/save_button"
         android:text="Start Time" />
 
     <Button
         android:id="@+id/end_time"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/start_time"
         android:layout_alignStart="@+id/start_time"
         android:layout_below="@+id/start_time"
         android:layout_marginTop="54dp"
-        android:text="End Time" />
+        android:text="End Time"
+        android:layout_alignRight="@+id/start_time"
+        android:layout_alignEnd="@+id/start_time" />
 
     <TextView
         android:id="@+id/start_time_display"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_width="150dp"
+        android:layout_height="20dp"
+        android:text="start_time"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:layout_alignBaseline="@+id/start_time"
         android:layout_alignBottom="@+id/start_time"
-        android:layout_toRightOf="@+id/save_button"
-        android:layout_below="@+id/day_spinner" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/end_time_display"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:text="end_time"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:layout_alignBaseline="@+id/end_time"
         android:layout_alignBottom="@+id/end_time"
-        android:layout_alignEnd="@+id/start_time_display"
-        android:layout_alignLeft="@+id/start_time_display"
-        android:layout_alignRight="@+id/start_time_display"
-        android:layout_alignStart="@+id/start_time_display"
-        android:layout_alignTop="@+id/end_time"
-        android:text="end_time" />
+        android:layout_toRightOf="@+id/save_button"
+        android:layout_toEndOf="@+id/save_button" />
 
 </RelativeLayout>
