@@ -29,6 +29,8 @@ public class add_slot extends AppCompatActivity {
     private TextView end_time_display;
     private Button pick_start_time;
     private Button pick_end_time;
+    int sHour,sMin;
+    int eHour,eMin;
     String stime;
     String etime;
     //int sMin, eMin;
@@ -43,8 +45,9 @@ public class add_slot extends AppCompatActivity {
 
     AlarmManager alarm_manager;
     TimePicker alarm_timepicker;
-    Context context;
     PendingIntent pending_intent;
+    Context context;
+
 
     private TimePickerDialog.OnTimeSetListener mTimeSetListener =
             new TimePickerDialog.OnTimeSetListener() {
@@ -63,7 +66,8 @@ public class add_slot extends AppCompatActivity {
                     new StringBuilder()
                             .append(pad(pHour)).append(":")
                             .append(pad(pMinute)));
-
+            sHour = pHour;
+            sMin = pMinute;
             stime = (String)(pad(pHour)) + ":" + (String)(pad(pMinute));
         }
         else{
@@ -73,7 +77,8 @@ public class add_slot extends AppCompatActivity {
                             .append(pad(pMinute)));
 
             etime = (String)(pad(pHour)) + ":" + (String)(pad(pMinute));
-
+            eHour = pHour;
+            eMin = pMinute;
         }
 
     }
@@ -139,7 +144,7 @@ public class add_slot extends AppCompatActivity {
 
         //initialize our time picker
         //alarm_timepicker = (TimePicker) findViewById(R.id.clock);
-        final Calendar calendar = Calendar.getInstance();
+        //final Calendar calendar = Calendar.getInstance();
 
         final Intent my_intent = new Intent(this.context, Alarm_Receiver.class);
 
@@ -150,39 +155,13 @@ public class add_slot extends AppCompatActivity {
             public void onClick(View v) {
                 time_slot_db DB = new time_slot_db(ctx);
                 DB.addSlot(DB, DayStatus, stime, etime);
+                setSwitchTime(sHour, sMin, true);
+                setSwitchTime(eHour, eMin, false);
                 startActivity(home);
                 finish();
             }
         });
-//        start_alarm.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //setting calendar instance with the hour and minute that we picked
-//                //on tne time picker
-//                calendar.set(Calendar.HOUR_OF_DAY, alarm_timepicker.getCurrentHour());
-//                calendar.set(Calendar.MINUTE, alarm_timepicker.getCurrentMinute());
 //
-//                //get the string value of the hour and minute
-//                int hour = alarm_timepicker.getCurrentHour();
-//                int minute = alarm_timepicker.getCurrentMinute();
-//
-//                //convert the int values to strings
-//                String hour_string = String.valueOf(hour);
-//                String minute_string = String.valueOf(minute);
-//
-//                //convert 24-hour to 12-hour time
-//                /*if(hour>12)
-//                    hour_string = String.valueOf(hour-12);
-//                if(minute<10){
-//                    minute_string = "0" + String.valueOf(minute);
-//                }*/
-//
-//                pending_intent = PendingIntent.getBroadcast(add_slot.this, 0, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//                alarm_manager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending_intent);
-//
-//            }
-//        });
         //initialize the stop Button
         Button stop_alarm = (Button) findViewById(R.id.stop_button);
 
@@ -192,6 +171,20 @@ public class add_slot extends AppCompatActivity {
 //                alarm_manager.cancel(pending_intent);
 //            }
 //        });
+    }
+
+    public void setSwitchTime(int hours, int minutes, boolean switchToVibrate){
+        Calendar calendar = Calendar.getInstance();
+        Intent my_intent = new Intent(this.context, Alarm_Receiver.class);
+
+        my_intent.putExtra("switchToVibrate", switchToVibrate);
+
+        calendar.set(Calendar.HOUR_OF_DAY, hours);
+        calendar.set(Calendar.MINUTE, minutes);
+
+        pending_intent = PendingIntent.getBroadcast(add_slot.this, ((switchToVibrate) ? 1 : 0), my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        alarm_manager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending_intent);
     }
 
     @Override

@@ -30,10 +30,12 @@ public class Alarm_Receiver extends BroadcastReceiver {
         Log.e("We are in the receiver.", "YAY!");
 //        final AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
+        boolean switchToVibrate = intent.getExtras().getBoolean("switchToVibrate");
+
         //create an intent
 
         Intent service_intent = new Intent(context, ProfileChangeService.class);
-
+        service_intent.putExtra("switchToVibrate", switchToVibrate);
         context.startService(service_intent);
     }
 }

@@ -25,10 +25,15 @@ public class ProfileChangeService extends Service {
         return null;
     }
     public int onStartCommand(Intent intent, int flags, int startId){
+        boolean switchToVibrate = intent.getExtras().getBoolean("switchToVibrate");
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        Log.i("Local Service", "Received start id" + startId + ": " + intent);
-        Toast.makeText(this, "onStart called", Toast.LENGTH_SHORT).show();
-        am.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+
+        if (switchToVibrate){Log.e("err", "1");
+            am.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+        }else {Log.e("err", "0");
+            am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+        }
+
         return START_NOT_STICKY;
     }
 }
