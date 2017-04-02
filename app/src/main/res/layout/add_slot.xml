@@ -55,4 +55,15 @@
         android:layout_marginBottom="17dp"
         android:text="Save" />
 
+    <Button
+        android:id="@+id/stop_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/save_button"
+        android:layout_marginLeft="23dp"
+        android:layout_marginStart="23dp"
+        android:layout_toEndOf="@+id/save_button"
+        android:layout_toRightOf="@+id/save_button"
+        android:text="Stop" />
+
 </RelativeLayout>
