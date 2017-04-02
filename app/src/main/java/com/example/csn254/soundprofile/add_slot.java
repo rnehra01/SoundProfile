@@ -150,6 +150,8 @@ public class add_slot extends AppCompatActivity {
             public void onClick(View v) {
                 time_slot_db DB = new time_slot_db(ctx);
                 DB.addSlot(DB, DayStatus, stime, etime);
+
+                finish();
             }
         });
 //        start_alarm.setOnClickListener(new View.OnClickListener() {

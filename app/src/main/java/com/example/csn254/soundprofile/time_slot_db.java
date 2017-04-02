@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.ContentValues;
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.widget.Toast;
 
 public class time_slot_db extends SQLiteOpenHelper {
 
@@ -43,7 +44,8 @@ public class time_slot_db extends SQLiteOpenHelper {
         cv.put(TableInfo.START_TIME,start_time);
         cv.put(TableInfo.END_TIME,end_time);
         long k=SQ.insert(TableInfo.TABLE_NAME, null, cv);
-        Log.d("Database operations","one Row inserted");
+        Log.d("Database operations","one Row inserted"+day+start_time+end_time);
+        Log.e("err", day+start_time+end_time);
     }
 
 
