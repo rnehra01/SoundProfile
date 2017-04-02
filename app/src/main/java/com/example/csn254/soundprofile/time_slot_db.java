@@ -36,7 +36,7 @@ public class time_slot_db extends SQLiteOpenHelper {
 
     }
 
-    public void addWarrior(time_slot_db dop,String day,String start_time,String end_time){
+    public void addSlot(time_slot_db dop,String day,String start_time,String end_time){
         SQLiteDatabase SQ=dop.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(TableInfo.DAY, day);
