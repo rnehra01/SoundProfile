@@ -23,7 +23,7 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        display_slot_list();
         floatButton = (ImageButton) findViewById(R.id.addButton);
         floatButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,7 +32,14 @@ public class Home extends AppCompatActivity {
                 launch_add_slot_activity();
             }
         });
+    }
+    public void launch_add_slot_activity(){
+        Intent i=new Intent(this, add_slot.class);
+        finish();
+        startActivity(i);
+    }
 
+    public void display_slot_list(){
         int count = 0;
         time_slot_db DOP = new time_slot_db(ctx);
         final Cursor CR = DOP.getInformation(DOP);
@@ -65,9 +72,5 @@ public class Home extends AppCompatActivity {
             Toast.makeText(getBaseContext(), "Please add a slot FIRST", Toast.LENGTH_LONG).show();
         }
 
-    }
-    public void launch_add_slot_activity(){
-        Intent i=new Intent(this, add_slot.class);
-        startActivity(i);
     }
 }
