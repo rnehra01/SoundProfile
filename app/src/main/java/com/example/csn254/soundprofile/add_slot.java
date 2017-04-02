@@ -144,12 +144,14 @@ public class add_slot extends AppCompatActivity {
         final Intent my_intent = new Intent(this.context, Alarm_Receiver.class);
 
         Button save_button = (Button) findViewById(R.id.save_button);
-
+        final Intent home=new Intent(this, Home.class);
         save_button.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 time_slot_db DB = new time_slot_db(ctx);
                 DB.addSlot(DB, DayStatus, stime, etime);
+                startActivity(home);
+                finish();
             }
         });
 //        start_alarm.setOnClickListener(new View.OnClickListener() {
