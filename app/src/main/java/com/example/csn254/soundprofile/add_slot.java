@@ -1,6 +1,5 @@
 package com.example.csn254.soundprofile;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -13,8 +12,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -27,14 +24,18 @@ import java.util.Calendar;
  */
 
 public class add_slot extends AppCompatActivity {
+    //time_slot_db dbHandler;
     private TextView start_time_display;
     private TextView end_time_display;
     private Button pick_start_time;
     private Button pick_end_time;
+    String stime;
+    String etime;
+    //int sMin, eMin;
     private int pHour;
     private int pMinute;
     private int TIME_DIALOG_ID = 0;
-
+    Context ctx = this;
 
     Spinner day_spinner;
     ArrayAdapter<CharSequence> adapter;
@@ -62,11 +63,17 @@ public class add_slot extends AppCompatActivity {
                     new StringBuilder()
                             .append(pad(pHour)).append(":")
                             .append(pad(pMinute)));
-        }else{
+
+            stime = (String)(pad(pHour)) + ":" + (String)(pad(pMinute));
+        }
+        else{
             end_time_display.setText(
                     new StringBuilder()
                             .append(pad(pHour)).append(":")
                             .append(pad(pMinute)));
+
+            etime = (String)(pad(pHour)) + ":" + (String)(pad(pMinute));
+
         }
 
     }
@@ -136,8 +143,15 @@ public class add_slot extends AppCompatActivity {
 
         final Intent my_intent = new Intent(this.context, Alarm_Receiver.class);
 
-        Button start_alarm = (Button) findViewById(R.id.save_button);
+        Button save_button = (Button) findViewById(R.id.save_button);
 
+        save_button.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                time_slot_db DB = new time_slot_db(ctx);
+                DB.addSlot(DB, DayStatus, stime, etime);
+            }
+        });
 //        start_alarm.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

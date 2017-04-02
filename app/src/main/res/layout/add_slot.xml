@@ -74,14 +74,14 @@
     <TextView
         android:id="@+id/start_time_display"
         android:layout_width="150dp"
-        android:layout_height="20dp"
-        android:text="start_time"
-        android:textAlignment="center"
-        android:textSize="18sp"
+        android:layout_height="30dp"
         android:layout_alignBaseline="@+id/start_time"
         android:layout_alignBottom="@+id/start_time"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:text="start_time"
+        android:textAlignment="center"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/end_time_display"
