@@ -42,6 +42,7 @@ public class add_slot extends AppCompatActivity {
     Spinner day_spinner;
     ArrayAdapter<CharSequence> adapter;
     String DayStatus;
+    int dayStatusId;
 
     AlarmManager alarm_manager;
     TimePicker alarm_timepicker;
@@ -111,8 +112,9 @@ public class add_slot extends AppCompatActivity {
         day_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+                dayStatusId = position+1;
                 DayStatus = parent.getItemAtPosition(position) + "";
-                Toast.makeText(getBaseContext(), "entered day " + DayStatus, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getBaseContext(), "entered day " + dayStatusId, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -155,8 +157,8 @@ public class add_slot extends AppCompatActivity {
             public void onClick(View v) {
                 time_slot_db DB = new time_slot_db(ctx);
                 DB.addSlot(DB, DayStatus, stime, etime);
-                setSwitchTime(sHour, sMin, true);
-                setSwitchTime(eHour, eMin, false);
+                setSwitchTime(sHour, sMin, dayStatusId, true);
+                setSwitchTime(eHour, eMin, dayStatusId, false);
                 startActivity(home);
                 finish();
             }
@@ -173,7 +175,7 @@ public class add_slot extends AppCompatActivity {
 //        });
     }
 
-    public void setSwitchTime(int hours, int minutes, boolean switchToVibrate){
+    public void setSwitchTime(int dayOfWeek, int hours, int minutes, boolean switchToVibrate){
         Calendar calendar = Calendar.getInstance();
         Intent my_intent = new Intent(this.context, Alarm_Receiver.class);
 
@@ -181,10 +183,12 @@ public class add_slot extends AppCompatActivity {
 
         calendar.set(Calendar.HOUR_OF_DAY, hours);
         calendar.set(Calendar.MINUTE, minutes);
+        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+        calendar.set(Calendar.SECOND, 0);
 
         pending_intent = PendingIntent.getBroadcast(add_slot.this, ((switchToVibrate) ? 1 : 0), my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        alarm_manager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending_intent);
+        alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pending_intent);
     }
 
     @Override
