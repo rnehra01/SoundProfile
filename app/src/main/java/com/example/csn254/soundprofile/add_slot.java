@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -157,8 +158,8 @@ public class add_slot extends AppCompatActivity {
             public void onClick(View v) {
                 time_slot_db DB = new time_slot_db(ctx);
                 DB.addSlot(DB, DayStatus, stime, etime);
-                setSwitchTime(sHour, sMin, dayStatusId, true);
-                setSwitchTime(eHour, eMin, dayStatusId, false);
+                setSwitchTime(dayStatusId, sHour, sMin, true);
+                setSwitchTime(dayStatusId, eHour, eMin, false);
                 startActivity(home);
                 finish();
             }
@@ -181,11 +182,17 @@ public class add_slot extends AppCompatActivity {
 
         my_intent.putExtra("switchToVibrate", switchToVibrate);
 
+        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+        if (minutes == 0){
+            minutes = 59;
+            hours = (hours == 0) ? 23:(hours-1);
+        }else {
+            minutes = (minutes-1)%60;
+        }
+        Log.e("err","Inside : "+dayOfWeek+"-"+hours+"-"+minutes);
         calendar.set(Calendar.HOUR_OF_DAY, hours);
         calendar.set(Calendar.MINUTE, minutes);
-        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-        calendar.set(Calendar.SECOND, 0);
-
+        //calendar.set(Calendar.SECOND, 0);
         pending_intent = PendingIntent.getBroadcast(add_slot.this, ((switchToVibrate) ? 1 : 0), my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pending_intent);

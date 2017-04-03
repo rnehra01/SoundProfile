@@ -28,7 +28,7 @@ public class Home extends AppCompatActivity {
         floatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getBaseContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
                 launch_add_slot_activity();
             }
         });
@@ -59,7 +59,7 @@ public class Home extends AppCompatActivity {
             do {
                 slot_day_list[i] = CR.getString(0);
                 slot_time_list[i] = CR.getString(1) + " - " + CR.getString(2);
-                Log.e("err", slot_day_list[i]+slot_time_list[i]);
+                //Log.d("display",slot_day_list[i]+slot_time_list[i]);
                 i++;
             } while (CR.moveToNext());
 

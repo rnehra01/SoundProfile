@@ -28,9 +28,9 @@ public class ProfileChangeService extends Service {
         boolean switchToVibrate = intent.getExtras().getBoolean("switchToVibrate");
         am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
-        if (switchToVibrate){Log.e("err", "1");
+        if (switchToVibrate){Log.e("err", "1-SILENTMODE");
             am.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
-        }else {Log.e("err", "0");
+        }else {Log.e("err", "0-NORMALMODE");
             am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
         }
 
