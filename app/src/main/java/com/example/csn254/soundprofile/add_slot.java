@@ -44,6 +44,8 @@ public class add_slot extends AppCompatActivity {
     ArrayAdapter<CharSequence> adapter;
     String DayStatus;
     int dayStatusId;
+    int start_time_req_id;
+    int end_time_req_id;
 
     AlarmManager alarm_manager;
     TimePicker alarm_timepicker;
@@ -157,7 +159,9 @@ public class add_slot extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 time_slot_db DB = new time_slot_db(ctx);
-                DB.addSlot(DB, DayStatus, stime, etime);
+                start_time_req_id = dayStatusId*10000+sHour*100+sMin;
+                end_time_req_id = dayStatusId*10000+eHour*100+eMin;
+                DB.addSlot(DB, DayStatus, start_time_req_id, end_time_req_id, stime, etime);
                 setSwitchTime(dayStatusId, sHour, sMin, true);
                 setSwitchTime(dayStatusId, eHour, eMin, false);
                 startActivity(home);
