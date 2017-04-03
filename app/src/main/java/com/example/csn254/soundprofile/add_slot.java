@@ -189,11 +189,12 @@ public class add_slot extends AppCompatActivity {
         }else {
             minutes = (minutes-1)%60;
         }
-        Log.e("err","Inside : "+dayOfWeek+"-"+hours+"-"+minutes);
         calendar.set(Calendar.HOUR_OF_DAY, hours);
         calendar.set(Calendar.MINUTE, minutes);
         //calendar.set(Calendar.SECOND, 0);
-        pending_intent = PendingIntent.getBroadcast(add_slot.this, ((switchToVibrate) ? 1 : 0), my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        int reqID = dayOfWeek*10000 + hours*100 + minutes;
+        Log.e("err","Inside : "+dayOfWeek+"-"+hours+"-"+minutes+"-"+reqID);
+        pending_intent = PendingIntent.getBroadcast(add_slot.this, reqID, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pending_intent);
     }
