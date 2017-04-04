@@ -1,5 +1,7 @@
 package com.example.csn254.soundprofile;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -17,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.csn254.soundprofile.add_slot;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -95,9 +98,10 @@ public class Home extends AppCompatActivity {
                             String times[] = time_duration.split("-");
                             time_slot_db DB = new time_slot_db(ctx);
                             DB.deleteSlot(DB, day, times[0].trim(), times[1].trim());
+                            cancelSlot(day, times[0].trim(), times[1].trim());
                             finish();
                             startActivity(getIntent());
-                            //Toast.makeText(getBaseContext(),times[0]+" "+times[1]+"-"+id+"-"+position, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(),"Cancelled "+day+" "+time_duration, Toast.LENGTH_SHORT).show();
                             return false;
                         }
                     }
@@ -108,6 +112,42 @@ public class Home extends AppCompatActivity {
         }
 
     }
+
+    public void cancelSlot(String day, String start_time, String end_time){
+        int hours = Integer.parseInt(start_time.split(":")[0]);
+        int mins = Integer.parseInt(start_time.split(":")[1]);
+        if (mins == 0){
+            mins = 59;
+            hours = (hours == 0) ? 23:(hours-1);
+        }else {
+            mins = (mins-1)%60;
+        }
+        int start_req_ID = hours*100+mins;
+        hours = Integer.parseInt(end_time.split(":")[0]);
+        mins = Integer.parseInt(end_time.split(":")[1]);
+        if (mins == 0){
+            mins = 59;
+            hours = (hours == 0) ? 23:(hours-1);
+        }else {
+            mins = (mins-1)%60;
+        }
+        int end_req_ID = hours*100+mins;
+        String dayz[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        for (int i=1; i<=7; i++){
+            if (dayz[i-1].equals(day.trim())){
+                start_req_ID += i*10000;
+                end_req_ID += i*10000;
+            }
+        }
+
+        Intent my_intent = new Intent(getApplicationContext(), Alarm_Receiver.class);
+        PendingIntent pendingstartIntent = PendingIntent.getBroadcast(getApplicationContext(), start_req_ID, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingendIntent = PendingIntent.getService(getApplicationContext(), end_req_ID, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarm_manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarm_manager.cancel(pendingstartIntent);
+        alarm_manager.cancel(pendingendIntent);
+    }
+
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.

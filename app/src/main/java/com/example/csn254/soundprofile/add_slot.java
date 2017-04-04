@@ -19,6 +19,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by suraj on 1/4/17.
@@ -182,7 +184,7 @@ public class add_slot extends AppCompatActivity {
 
     public void setSwitchTime(int dayOfWeek, int hours, int minutes, boolean switchToVibrate){
         Calendar calendar = Calendar.getInstance();
-        Intent my_intent = new Intent(this.context, Alarm_Receiver.class);
+        Intent my_intent = new Intent(getApplicationContext(), Alarm_Receiver.class);
 
         my_intent.putExtra("switchToVibrate", switchToVibrate);
 
@@ -198,10 +200,12 @@ public class add_slot extends AppCompatActivity {
         //calendar.set(Calendar.SECOND, 0);
         int reqID = dayOfWeek*10000 + hours*100 + minutes;
         Log.e("err","Inside : "+dayOfWeek+"-"+hours+"-"+minutes+"-"+reqID);
-        pending_intent = PendingIntent.getBroadcast(add_slot.this, reqID, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        pending_intent = PendingIntent.getBroadcast(getApplicationContext(), reqID, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pending_intent);
+        //alarm_manager.cancel(pending_intent);
     }
+
 
     @Override
     protected Dialog onCreateDialog(int id) {
