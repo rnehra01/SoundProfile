@@ -13,11 +13,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.csn254.soundprofile.add_slot;
 import com.google.android.gms.appindexing.Action;
@@ -25,9 +28,12 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.util.Calendar;
+
 public class Home extends AppCompatActivity {
 
     ImageButton floatButton;
+    Switch Switch_slot;
     ListView slot_list;
     Context ctx = this;
     /**
@@ -49,6 +55,24 @@ public class Home extends AppCompatActivity {
                 launch_add_slot_activity();
             }
         });
+
+        Switch_slot = (Switch) findViewById(R.id.switch_slot);
+        Switch_slot.setChecked(true);
+        Switch_slot.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                if(isChecked){
+                    Log.e("toggle", "added");
+                    add_all_slots();
+                }else{
+                    Log.e("toggle", "cancelled");
+                    cancel_all_slot();
+                }
+
+            }
+        });
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -63,7 +87,7 @@ public class Home extends AppCompatActivity {
     public void display_slot_list() {
         int count = 0;
         time_slot_db DOP = new time_slot_db(ctx);
-        final Cursor CR = DOP.getInformation(DOP);
+        Cursor CR = DOP.getInformation(DOP);
 
 
         CR.moveToFirst();
@@ -114,9 +138,19 @@ public class Home extends AppCompatActivity {
 
     }
 
+    public void cancel_all_slot(){
+        time_slot_db DOP = new time_slot_db(ctx);
+        Cursor CR = DOP.getInformation(DOP);
+
+        CR.moveToFirst();
+        do {
+            cancelSlot(CR.getString(0).trim(), CR.getString(1).trim(), CR.getString(2).trim());
+        } while (CR.moveToNext());
+    }
+
     public void cancelSlot(String day, String start_time, String end_time){
-        int hours = Integer.parseInt(start_time.split(":")[0]);
-        int mins = Integer.parseInt(start_time.split(":")[1]);
+        int hours = Integer.parseInt(start_time.split(":")[0].trim());
+        int mins = Integer.parseInt(start_time.split(":")[1].trim());
         if (mins == 0){
             mins = 59;
             hours = (hours == 0) ? 23:(hours-1);
@@ -124,8 +158,8 @@ public class Home extends AppCompatActivity {
             mins = (mins-1)%60;
         }
         int start_req_ID = hours*100+mins;
-        hours = Integer.parseInt(end_time.split(":")[0]);
-        mins = Integer.parseInt(end_time.split(":")[1]);
+        hours = Integer.parseInt(end_time.split(":")[0].trim());
+        mins = Integer.parseInt(end_time.split(":")[1].trim());
         if (mins == 0){
             mins = 59;
             hours = (hours == 0) ? 23:(hours-1);
@@ -141,16 +175,57 @@ public class Home extends AppCompatActivity {
             }
         }
 
-        Intent my_intent = new Intent(getApplicationContext(), Alarm_Receiver.class);
-        PendingIntent pendingstartIntent = PendingIntent.getBroadcast(getApplicationContext(), start_req_ID, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        PendingIntent pendingendIntent = PendingIntent.getService(getApplicationContext(), end_req_ID, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingstartIntent = PendingIntent.getBroadcast(getApplicationContext(), start_req_ID, new Intent(getApplicationContext(), Alarm_Receiver.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingendIntent = PendingIntent.getService(getApplicationContext(), end_req_ID, new Intent(getApplicationContext(), Alarm_Receiver.class), PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarm_manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarm_manager.cancel(pendingstartIntent);
+        Log.e("cancelslot",""+start_time+"-"+start_req_ID);
         alarm_manager.cancel(pendingendIntent);
+        Log.e("cancelslot",""+end_time+"-"+end_req_ID);
     }
 
+    public void add_all_slots(){
+        time_slot_db DOP = new time_slot_db(ctx);
+        Cursor CR = DOP.getInformation(DOP);
 
+        CR.moveToFirst();
+        do {
+            int sHour = Integer.parseInt(CR.getString(1).split(":")[0].trim());
+            int sMin = Integer.parseInt(CR.getString(1).split(":")[1].trim());
+            setSlotTime(CR.getString(0).trim(), sHour, sMin, true);
+            int eHour = Integer.parseInt(CR.getString(2).split(":")[0].trim());
+            int eMin = Integer.parseInt(CR.getString(2).split(":")[1].trim());
+            setSlotTime(CR.getString(0).trim(), eHour, eMin, false);
+        } while (CR.moveToNext());
+    }
 
+    public void setSlotTime(String day, int hours, int minutes, boolean switchToVibrate){
+        Calendar calendar = Calendar.getInstance();
+        Intent my_intent = new Intent(getApplicationContext(), Alarm_Receiver.class);
+        my_intent.putExtra("switchToVibrate", switchToVibrate);
+
+        int dayOfWeek=-1;
+        String dayz[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        for (int i=1; i<=7; i++){
+            if (dayz[i-1].equals(day.trim())){
+                dayOfWeek = i;
+            }
+        }
+
+        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+        if (minutes == 0){
+            minutes = 59;
+            hours = (hours == 0) ? 23:(hours-1);
+        }else {
+            minutes = (minutes-1)%60;
+        }
+        calendar.set(Calendar.HOUR_OF_DAY, hours);
+        calendar.set(Calendar.MINUTE, minutes);
+        int reqID = dayOfWeek*10000 + hours*100 + minutes;
+        PendingIntent pending_intent = PendingIntent.getBroadcast(getApplicationContext(), reqID, my_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarm_manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pending_intent);
+    }
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.

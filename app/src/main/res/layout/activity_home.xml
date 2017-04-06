@@ -12,7 +12,7 @@
     tools:context="com.example.csn254.soundprofile.Home">
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/switch_slot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -23,7 +23,7 @@
 
     <ListView
         android:layout_width="wrap_content"
-        android:layout_below="@+id/switch1"
+        android:layout_below="@+id/switch_slot"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="14dp"
