@@ -5,6 +5,8 @@ import android.provider.BaseColumns;
 public class TableData {
     public TableData(){}
 
+    //  abstract class mapping various strings to their respective  variables
+
     public static abstract class TableInfo implements BaseColumns{
         public static final String DAY="slot_day";
         public static final String START_TIME_REQ_ID="start_time_req_id";

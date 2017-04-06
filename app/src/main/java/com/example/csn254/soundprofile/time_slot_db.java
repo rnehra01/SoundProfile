@@ -23,7 +23,7 @@ public class time_slot_db extends SQLiteOpenHelper {
         super(context, TableInfo.DATABASE_NAME, null, DATABASE_VERSION);
         Log.d("Database operations", "Database created");
     }
-
+    // oncreate function- to initialize the database table
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query="CREATE TABLE "+TableInfo.TABLE_NAME+ "("+ TableInfo.DAY + " TEXT, "
@@ -40,6 +40,7 @@ public class time_slot_db extends SQLiteOpenHelper {
 
     }
 
+        // To add new time slot to the existing list ; input is day, start time ,end time and their respective ID's
     public boolean addSlot(time_slot_db dop,String day,int start_time_req_id,int end_time_req_id,String start_time,String end_time){
 
         if (Exists(dop, day, start_time, end_time)){
@@ -59,7 +60,7 @@ public class time_slot_db extends SQLiteOpenHelper {
 
     }
 
-
+        // to get information about all the entries present in the list
     public Cursor getInformation (time_slot_db dop){
         SQLiteDatabase SQ=dop.getReadableDatabase();
         String [] columns={TableInfo.DAY,TableInfo.START_TIME,TableInfo.END_TIME,TableInfo.START_TIME_REQ_ID,TableInfo.END_TIME_REQ_ID};
@@ -67,7 +68,7 @@ public class time_slot_db extends SQLiteOpenHelper {
         return CR;
 
     }
-
+        // function to delete the selected timeslot from the list
     public void deleteSlot(time_slot_db dop, String day,String start_time,String end_time){
         String selection = TableInfo.DAY+ " LIKE ?" + " AND " + TableInfo.START_TIME + " LIKE ?" + " AND " + TableInfo.END_TIME + " LIKE ?";
         //Log.e("err", selection+"-"+day+"-"+start_time+"-"+end_time);
@@ -75,7 +76,7 @@ public class time_slot_db extends SQLiteOpenHelper {
         SQLiteDatabase SQ = dop.getWritableDatabase();
         SQ.delete(TableInfo.TABLE_NAME, selection, args);
     }
-
+        // To check whether a time slot exists in the list or not to avoid duplicate entry in list
     public boolean Exists(time_slot_db dop, String day, String start_time,String end_time){
         String columns [] ={TableInfo.START_TIME, TableInfo.END_TIME};
         String selection = TableInfo.START_TIME + " LIKE ? AND " + TableInfo.END_TIME + " LIKE ?";

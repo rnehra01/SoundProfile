@@ -15,6 +15,7 @@ import java.security.Provider;
 /**
  * Created by suraj on 2/4/17.
  */
+ // main function of the app which reads the various time slots in the list and toggles sound profile according to the input schedule
 
 public class ProfileChangeService extends Service {
     private AudioManager am;
