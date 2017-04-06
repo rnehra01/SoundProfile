@@ -179,16 +179,16 @@ public class add_slot extends AppCompatActivity {
                 }
             }
         });
-//
-        //initialize the stop Button
-        Button stop_alarm = (Button) findViewById(R.id.stop_button);
 
-//        stop_alarm.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                alarm_manager.cancel(pending_intent);
-//            }
-//        });
+        Button home_button = (Button) findViewById(R.id.back_button);
+
+        home_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(home);
+                finish();
+            }
+        });
     }
 
     public void setSwitchTime(int dayOfWeek, int hours, int minutes, boolean switchToVibrate){
