@@ -32,8 +32,8 @@ public class add_slot extends AppCompatActivity {
     private TextView end_time_display;
     private Button pick_start_time;
     private Button pick_end_time;
-    int sHour,sMin;
-    int eHour,eMin;
+    int sHour = -1,sMin = -1;
+    int eHour =-1,eMin =-1;
     String stime;
     String etime;
     //int sMin, eMin;
@@ -160,14 +160,18 @@ public class add_slot extends AppCompatActivity {
         save_button.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                time_slot_db DB = new time_slot_db(ctx);
-                start_time_req_id = dayStatusId*10000+sHour*100+sMin;
-                end_time_req_id = dayStatusId*10000+eHour*100+eMin;
-                DB.addSlot(DB, DayStatus, start_time_req_id, end_time_req_id, stime, etime);
-                setSwitchTime(dayStatusId, sHour, sMin, true);
-                setSwitchTime(dayStatusId, eHour, eMin, false);
-                startActivity(home);
-                finish();
+                if (sHour == -1 || sMin ==-1 || eHour == -1 || eMin ==-1){
+                    Toast.makeText(getBaseContext(), "Select valid start or end time", Toast.LENGTH_SHORT).show();
+                }else {
+                    time_slot_db DB = new time_slot_db(ctx);
+                    start_time_req_id = dayStatusId*10000+sHour*100+sMin;
+                    end_time_req_id = dayStatusId*10000+eHour*100+eMin;
+                    DB.addSlot(DB, DayStatus, start_time_req_id, end_time_req_id, stime, etime);
+                    setSwitchTime(dayStatusId, sHour, sMin, true);
+                    setSwitchTime(dayStatusId, eHour, eMin, false);
+                    startActivity(home);
+                    finish();
+                }
             }
         });
 //
