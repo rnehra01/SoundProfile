@@ -40,17 +40,23 @@ public class time_slot_db extends SQLiteOpenHelper {
 
     }
 
-    public void addSlot(time_slot_db dop,String day,int start_time_req_id,int end_time_req_id,String start_time,String end_time){
-        SQLiteDatabase SQ=dop.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(TableInfo.DAY, day);
-        cv.put(TableInfo.START_TIME,start_time);
-        cv.put(TableInfo.END_TIME,end_time);
-        cv.put(TableInfo.START_TIME_REQ_ID,start_time_req_id);
-        cv.put(TableInfo.END_TIME_REQ_ID,end_time_req_id);
-        long k=SQ.insert(TableInfo.TABLE_NAME, null, cv);
-        Log.d("Database operations","one Row inserted"+day+start_time+end_time);
-        Log.e("err", day+start_time+end_time);
+    public boolean addSlot(time_slot_db dop,String day,int start_time_req_id,int end_time_req_id,String start_time,String end_time){
+
+        if (Exists(dop, day, start_time, end_time)){
+            return false;
+        }else {
+            SQLiteDatabase SQ=dop.getWritableDatabase();
+            ContentValues cv = new ContentValues();
+            cv.put(TableInfo.DAY, day);
+            cv.put(TableInfo.START_TIME,start_time);
+            cv.put(TableInfo.END_TIME,end_time);
+            cv.put(TableInfo.START_TIME_REQ_ID,start_time_req_id);
+            cv.put(TableInfo.END_TIME_REQ_ID,end_time_req_id);
+            long k=SQ.insert(TableInfo.TABLE_NAME, null, cv);
+            Log.d("Database operations","one Row inserted"+day+start_time+end_time);
+            return true;
+        }
+
     }
 
 
@@ -70,6 +76,18 @@ public class time_slot_db extends SQLiteOpenHelper {
         SQ.delete(TableInfo.TABLE_NAME, selection, args);
     }
 
+    public boolean Exists(time_slot_db dop, String day, String start_time,String end_time){
+        String columns [] ={TableInfo.START_TIME, TableInfo.END_TIME};
+        String selection = TableInfo.START_TIME + " LIKE ? AND " + TableInfo.END_TIME + " LIKE ?";
+        String args [] = {start_time, end_time};
+        String limit = "1";
 
+        SQLiteDatabase SQ = dop.getWritableDatabase();
+        Cursor cursor = SQ.query(TableInfo.TABLE_NAME, columns, selection, args, null, null, null, limit);
+        boolean exists = (cursor.getCount() > 0);
+        cursor.close();
+        Log.e("DBEXISTS", ""+exists);
+        return exists;
+    }
 
 }

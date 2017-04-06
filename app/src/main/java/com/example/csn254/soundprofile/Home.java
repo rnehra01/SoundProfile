@@ -111,6 +111,7 @@ public class Home extends AppCompatActivity {
             Toast.makeText(getBaseContext(), "Please add a slot FIRST", Toast.LENGTH_LONG).show();
         }
 
+
     }
 
     public void cancelSlot(String day, String start_time, String end_time){
@@ -147,6 +148,8 @@ public class Home extends AppCompatActivity {
         alarm_manager.cancel(pendingstartIntent);
         alarm_manager.cancel(pendingendIntent);
     }
+
+
 
 
     /**

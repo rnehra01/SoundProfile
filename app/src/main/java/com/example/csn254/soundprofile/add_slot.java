@@ -166,11 +166,16 @@ public class add_slot extends AppCompatActivity {
                     time_slot_db DB = new time_slot_db(ctx);
                     start_time_req_id = dayStatusId*10000+sHour*100+sMin;
                     end_time_req_id = dayStatusId*10000+eHour*100+eMin;
-                    DB.addSlot(DB, DayStatus, start_time_req_id, end_time_req_id, stime, etime);
-                    setSwitchTime(dayStatusId, sHour, sMin, true);
-                    setSwitchTime(dayStatusId, eHour, eMin, false);
-                    startActivity(home);
-                    finish();
+
+                    if (DB.addSlot(DB, DayStatus, start_time_req_id, end_time_req_id, stime, etime)){
+                        setSwitchTime(dayStatusId, sHour, sMin, true);
+                        setSwitchTime(dayStatusId, eHour, eMin, false);
+                        startActivity(home);
+                        finish();
+                    }else {
+                        Toast.makeText(getBaseContext(), "This slot already exists", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             }
         });
