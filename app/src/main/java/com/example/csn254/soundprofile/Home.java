@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.net.Uri;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,9 +19,6 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
-
-import com.example.csn254.soundprofile.add_slot;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -36,10 +32,6 @@ public class Home extends AppCompatActivity {
     Switch Switch_slot;
     ListView slot_list;
     Context ctx = this;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
     private GoogleApiClient client;
 
     @Override
@@ -48,18 +40,18 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         display_slot_list();
         floatButton = (ImageButton) findViewById(R.id.addButton);
+        //listener for add button
         floatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getBaseContext(), "Button Clicked", Toast.LENGTH_SHORT).show();
                 launch_add_slot_activity();
             }
         });
 
         Switch_slot = (Switch) findViewById(R.id.switch_slot);
         Switch_slot.setChecked(true);
+        //listener for switch_slot
         Switch_slot.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
@@ -73,22 +65,21 @@ public class Home extends AppCompatActivity {
 
             }
         });
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
+    //launch the add activity
     public void launch_add_slot_activity() {
         Intent i = new Intent(this, add_slot.class);
         finish();
         startActivity(i);
     }
 
+    //fetch all the entries from slot db and display them
     public void display_slot_list() {
         int count = 0;
         time_slot_db DOP = new time_slot_db(ctx);
         Cursor CR = DOP.getInformation(DOP);
-
 
         CR.moveToFirst();
         do {
@@ -112,7 +103,7 @@ public class Home extends AppCompatActivity {
             ListAdapter adapter = new custom_slot_adapter(this, slot_day_list, slot_time_list);
             slot_list = (ListView) findViewById(R.id.slot_list);
             slot_list.setAdapter(adapter);
-
+            //listener for each element in the list while long-pressing
             slot_list.setOnItemLongClickListener(
                     new AdapterView.OnItemLongClickListener(){
                         @Override
@@ -138,6 +129,7 @@ public class Home extends AppCompatActivity {
 
     }
 
+    //cancel all the slote on toggle off
     public void cancel_all_slot(){
         time_slot_db DOP = new time_slot_db(ctx);
         Cursor CR = DOP.getInformation(DOP);
@@ -148,6 +140,7 @@ public class Home extends AppCompatActivity {
         } while (CR.moveToNext());
     }
 
+    //cancel a particular slot
     public void cancelSlot(String day, String start_time, String end_time){
         int hours = Integer.parseInt(start_time.split(":")[0].trim());
         int mins = Integer.parseInt(start_time.split(":")[1].trim());
@@ -184,6 +177,7 @@ public class Home extends AppCompatActivity {
         Log.e("cancelslot",""+end_time+"-"+end_req_ID);
     }
 
+    //add all alots in DB for sound-profile changing
     public void add_all_slots(){
         time_slot_db DOP = new time_slot_db(ctx);
         Cursor CR = DOP.getInformation(DOP);
@@ -199,6 +193,7 @@ public class Home extends AppCompatActivity {
         } while (CR.moveToNext());
     }
 
+    //set a particular slot for sound profile changing
     public void setSlotTime(String day, int hours, int minutes, boolean switchToVibrate){
         Calendar calendar = Calendar.getInstance();
         Intent my_intent = new Intent(getApplicationContext(), Alarm_Receiver.class);
@@ -227,10 +222,6 @@ public class Home extends AppCompatActivity {
         alarm_manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, pending_intent);
     }
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
     public Action getIndexApiAction() {
         Thing object = new Thing.Builder()
                 .setName("Home Page") // TODO: Define a title for the content shown.
@@ -246,9 +237,6 @@ public class Home extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         client.connect();
         AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
@@ -256,9 +244,6 @@ public class Home extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
