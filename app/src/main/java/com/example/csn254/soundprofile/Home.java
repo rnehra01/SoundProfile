@@ -60,7 +60,13 @@ public class Home extends AppCompatActivity {
                     add_all_slots();
                 }else{
                     Log.e("toggle", "cancelled");
-                    cancel_all_slot();
+                    try{
+                        cancel_all_slot();
+                    }catch (CursorIndexOutOfBoundsException e){
+                        Toast.makeText(getBaseContext(), "Nothing to cancel", Toast.LENGTH_SHORT).show();
+                        Switch_slot.setChecked(true);
+                    }
+
                 }
 
             }
@@ -224,8 +230,7 @@ public class Home extends AppCompatActivity {
 
     public Action getIndexApiAction() {
         Thing object = new Thing.Builder()
-                .setName("Home Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
+                .setName("Home Page")
                 .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
                 .build();
         return new Action.Builder(Action.TYPE_VIEW)
