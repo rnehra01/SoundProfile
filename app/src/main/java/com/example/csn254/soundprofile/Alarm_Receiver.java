@@ -20,19 +20,13 @@ import com.google.android.gms.appindexing.Action;
  */
 
 public class Alarm_Receiver extends BroadcastReceiver {
-    //private GoogleApiClient client;
-    //private
-
+    //handler for bradcasting event
     @Override
     public void onReceive(Context context, Intent intent) {
-  //      client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
-        Log.e("We are in the receiver.", "YAY!");
-//        final AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        Log.d("We are in the receiver.", "YAY!");
 
         boolean switchToVibrate = intent.getExtras().getBoolean("switchToVibrate");
-
-        //create an intent
 
         Intent service_intent = new Intent(context, ProfileChangeService.class);
         service_intent.putExtra("switchToVibrate", switchToVibrate);

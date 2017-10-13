@@ -11,6 +11,7 @@ import android.widget.TextView;
  * Created by rnehra on 2/4/17.
  */
 
+// function to customize the default layout of list-view  to the required layout for the app
 public class custom_slot_adapter extends ArrayAdapter<String> {
     String [] days;
     String [] times;
@@ -28,6 +29,7 @@ public class custom_slot_adapter extends ArrayAdapter<String> {
         TextView time_list;
     }
 
+    // function to generate the custom-slot layout
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater Inflater=LayoutInflater.from(getContext());
