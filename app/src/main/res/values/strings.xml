@@ -3,12 +3,12 @@
     <string name="title_activity_choose__slot">Choose_Slot</string>
 
     <string-array name="day_list">
+        <item>Sunday</item>
         <item>Monday</item>
         <item>Tuesday</item>
         <item>Wednesday</item>
         <item>Thursday</item>
         <item>Friday</item>
         <item>Saturday</item>
-        <item>Sunday</item>
     </string-array>
 </resources>

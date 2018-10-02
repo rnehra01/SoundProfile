@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_home"
     android:layout_width="match_parent"
@@ -10,19 +11,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.csn254.soundprofile.Home">
 
-    <ImageButton
-        android:id="@+id/addButton"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/oval"
-        android:elevation="10dp"
-        android:src="@drawable/add_button_image" />
-
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/switch_slot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -31,87 +21,27 @@
         android:textOff="Turn On"
         android:textOn="Turn Off" />
 
-    <Button
-        android:id="@+id/button"
+    <ListView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_below="@+id/switch_slot"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/switch1"
-        android:layout_marginTop="13dp"
-        android:background="@color/colorPrimary"
-        android:text="Monday"
-        android:textColor="@android:color/background_light" />
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="31dp"
+        android:id="@+id/slot_list"
+        android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/button2"
+    <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="Tuesday"
-        android:textColor="@android:color/background_light"
-        android:layout_marginTop="11dp"
-        android:layout_below="@+id/button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="Wednesday"
-        android:textColor="@android:color/background_light"
-        android:layout_below="@+id/button2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="Thursday"
-        android:textColor="@android:color/background_light"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="Friday"
-        android:textColor="@android:color/background_light"
-        android:layout_below="@+id/button4"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="13dp" />
-
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="Saturday"
-        android:textColor="@android:color/background_light"
-        android:layout_marginTop="12dp"
-        android:layout_below="@+id/button5"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="Sunday"
-        android:textColor="@android:color/background_light"
-        android:layout_below="@+id/button6"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="12dp" />
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/add_button_image"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/addButton"
+        app:backgroundTint="@android:color/holo_blue_dark" />
 
 </RelativeLayout>
