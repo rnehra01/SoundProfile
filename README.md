@@ -4,7 +4,7 @@ This is an Android application that will manage your sound profile according to 
 * It can be disabled for a particular day(in case of a holiday).
 * Uses SQLite
 * Different schedules can be applied for different days of the week.
-# ScreenShots
+## ScreenShots
 ### Home Screen
 ![Home Screen](Screenshot_20181002-194340.jpg?raw=true "Home Screen")
 ### Time Slot Addition
