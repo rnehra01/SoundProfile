@@ -37,17 +37,6 @@
         android:text="Save" />
 
     <Button
-        android:id="@+id/stop_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/save_button"
-        android:layout_marginLeft="23dp"
-        android:layout_marginStart="23dp"
-        android:layout_toEndOf="@+id/save_button"
-        android:layout_toRightOf="@+id/save_button"
-        android:text="Stop" />
-
-    <Button
         android:id="@+id/start_time"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
@@ -94,5 +83,15 @@
         android:layout_alignBottom="@+id/end_time"
         android:layout_toRightOf="@+id/save_button"
         android:layout_toEndOf="@+id/save_button" />
+
+    <Button
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Home"
+        android:layout_alignBaseline="@+id/save_button"
+        android:layout_alignBottom="@+id/save_button"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
