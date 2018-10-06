@@ -12,6 +12,6 @@ This is an Android application that will manage your sound profile according to 
 ## Project Members:
 1. [Ravinder Nehra](https://www.github.com/rnehra01)
 2. [Nisheeth Golakiya](https://www.github.com/nisheeth-golakiya)
-3. [Suraj Tripathi](https://www.github.com/suraj97)
+3. [Suraj Tripathi](https://github.com/surajt97)
 4. [Sudhanshu Sambharya](https://www.github.com/sudwebd)
 5. [Shubham Raj](https://www.github.com/raj808569)
