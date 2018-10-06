@@ -2,7 +2,7 @@
 This is an Android application that will manage your sound profile according to your input schedule for the week. It is developed as a course project using principles of Software Engineering.
 
 * It can be disabled for a particular day(in case of a holiday).
-* Uses Sqlite
+* Uses SQLite
 * Different schedules can be applied for different days of the week.
 # ScreenShots
 ### Home Screen
